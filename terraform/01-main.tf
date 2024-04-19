@@ -25,7 +25,7 @@ data "terraform_remote_state" "vpc" {
   }
 }
 
-data "aws_caller_identity" "current" {}
+#data "aws_caller_identity" "current" {}
 
 data "aws_secretsmanager_random_password" "eks_rds" {
   password_length    = 15
