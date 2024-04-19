@@ -69,7 +69,7 @@ ecs_alb_protocol: HTTP
 ecs_alb_target_type: ip
 ecs_alb_sg_description: Security Group for Ingress Application Load Balancer
 
-ecs_rds_sg_rules:
+eks_rds_sg_rules:
   ingressrule1:
     from_port: 3306
     to_port: 3306
