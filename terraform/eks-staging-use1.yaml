@@ -26,15 +26,15 @@ eks_cluster:
     vpc_cni:
       version: v1.14.1-eksbuild.1
       resolve_conflict: OVERWRITE
-    node_groups:
-      eks_app:
-        name: eks-apps  
-        scaling_config:
-          desire_count: 2
-          maz_size: 2
-          min_size: 1
-        update_config:
-          max_unavailable: 1
+  node_groups:
+    eks_app:
+      name: eks-apps  
+      scaling_config:
+        desire_count: 2
+        maz_size: 2
+        min_size: 1
+      update_config:
+        max_unavailable: 1
 
 #ECS Applications
 ecs_app_service_sg_rules:
