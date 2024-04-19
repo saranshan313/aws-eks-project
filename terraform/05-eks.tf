@@ -35,7 +35,7 @@ resource "aws_eks_addon" "eks_apps" {
   resolve_conflicts_on_create = each.value["resolve_conflict"]
   addon_version               = each.value["version"]
   depends_on = [
-    aws_eks_node_group.demo_cluster
+    aws_eks_node_group.eks_apps
   ]
 }
 
@@ -50,13 +50,13 @@ resource "aws_eks_node_group" "eks_apps" {
   ]
 
   scaling_config {
-    desired_size = each.scaling_config.value["desire_count"]
-    max_size     = each.scaling_config.value["max_size"]
-    min_size     = each.scaling_config.value["min_size"]
+    desired_size = local.settings.eks_cluster.node_groups[each.key].scaling_config.desire_count
+    max_size     = local.settings.eks_cluster.node_groups[each.key].max_size
+    min_size     = local.settings.eks_cluster.node_groups[each.key].min_size
   }
 
   update_config {
-    max_unavailable = each.update_config.value["max_unavailable"]
+    max_unavailable = local.settings.eks_cluster.node_groups[each.key].update_config.max_unavailable
   }
 
   depends_on = [

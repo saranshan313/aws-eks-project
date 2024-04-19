@@ -31,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSVPCResourceControlle
 }
 
 #OIDC Provider for EKS Cluster
-data "tls_certificate" "this" {
+data "tls_certificate" "eksapps" {
   url = aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer
 }
 
@@ -39,8 +39,8 @@ resource "aws_iam_openid_connect_provider" "oidc_provider" {
   client_id_list = [
     "sts.amazonaws.com"
   ]
-  thumbprint_list = data.tls_certificate.this.certificates[*].sha1_fingerprint
-  url             = aws_eks_cluster.demo_cluster.identity[0].oidc[0].issuer
+  thumbprint_list = data.tls_certificate.eksapps.certificates[*].sha1_fingerprint
+  url             = aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer
 
   tags = {
     Name = "oidc-${local.settings.env}-${local.settings.region}-eks-cluster-01"
