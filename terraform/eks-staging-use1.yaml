@@ -1,0 +1,99 @@
+region: use1
+env: staging
+
+#EKS Cluster
+eks_clsuter:
+  cluster_version: 1.28
+  vpc_config:
+    private_access: true
+    public_access: false
+  log_types:
+    - audit
+    - api
+    - authenticator
+    - controllerManager
+    - scheduler
+  network_config:
+    service_ip_cidr: 192.168.0.0/16
+    ip_family: ipv4
+  add_on:
+    kube_proxy:
+      version: v1.27.6-eksbuild.2
+      resolve_conflict: OVERWRITE
+    coredns:
+      version: v1.10.1-eksbuild.2
+      resolve_conflict: OVERWRITE
+    vpc_cni:
+      version: v1.14.1-eksbuild.1
+      resolve_conflict: OVERWRITE
+    node_groups:
+      eks_app:
+        name: eks-apps  
+        scaling_config:
+          desire_count: 2
+          maz_size: 2
+          min_size: 1
+        update_config:
+          max_unavailable: 1
+
+#ECS Applications
+ecs_app_service_sg_rules:
+  ingressrule1:
+    from_port: 80
+    to_port: 80
+    protocol: 6
+    security_groups: []
+    cidr_blocks: []
+ecs_app_lb_sg_rules:
+  ingressrule1:
+    from_port: 80
+    to_port: 80
+    protocol: 6
+    security_groups: []
+    cidr_blocks: ["0.0.0.0/0"]
+  ingressrule2:
+    from_port: 443
+    to_port: 443
+    protocol: 6
+    security_groups: []
+    cidr_blocks: ["0.0.0.0/0"]
+
+#ECS Application LoadBalancer
+ecs_alb_internal: false
+ecs_alb_type: application
+ecs_alb_crosszone_lb: true
+ecs_alb_ip_type: ipv4
+
+ecs_alb_traffic_port: 80
+ecs_alb_protocol: HTTP
+ecs_alb_target_type: ip
+ecs_alb_sg_description: Security Group for Ingress Application Load Balancer
+
+ecs_rds_sg_rules:
+  ingressrule1:
+    from_port: 3306
+    to_port: 3306
+    protocol: 6
+    security_groups: []
+    cidr_blocks: []
+
+#RDS Configurations
+eks_rds:
+  allocated_storage: 20
+  storage_type: gp2
+  engine: mysql
+  engine_version: 8.0.36
+  instance_class: db.t3.micro
+  username: eksroot
+  dbname: eksapps
+  dbport: 3306
+  deletion_protection: false
+  manage_master_user_password: true
+  skip_final_snapshot: true
+  multi_az: false
+
+#ECR Configurations
+ecr_eks:
+  scan_on_push: true
+
+####
