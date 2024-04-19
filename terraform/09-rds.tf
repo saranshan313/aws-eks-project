@@ -17,11 +17,11 @@ resource "aws_security_group" "eks_rds" {
   dynamic "ingress" {
     for_each = local.settings.eks_rds_sg_rules
     content {
-      from_port       = ingress.value["from_port"]
-      to_port         = ingress.value["to_port"]
-      protocol        = ingress.value["protocol"]
+      from_port = ingress.value["from_port"]
+      to_port   = ingress.value["to_port"]
+      protocol  = ingress.value["protocol"]
       #security_groups = [aws_security_group.eks_app_service.id]
-      cidr_blocks     = ["0.0.0.0/0"]
+      cidr_blocks = ["0.0.0.0/0"]
     }
   }
 
