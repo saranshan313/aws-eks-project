@@ -1,6 +1,6 @@
 #EKS Cluster
 resource "aws_eks_cluster" "eks_apps" {
-  version  = local.settings.eks_clsuter.cluster_version
+  version  = local.settings.eks_cluster.cluster_version
   name     = "eks-${local.settings.env}-${local.settings.region}-cluster-01"
   role_arn = aws_iam_role.eks_cluster_role.arn
 

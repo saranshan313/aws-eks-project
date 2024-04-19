@@ -2,7 +2,7 @@ region: use1
 env: staging
 
 #EKS Cluster
-eks_clsuter:
+eks_cluster:
   cluster_version: 1.28
   vpc_config:
     private_access: true
