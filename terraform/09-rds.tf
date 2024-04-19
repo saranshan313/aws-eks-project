@@ -4,8 +4,8 @@ resource "aws_db_subnet_group" "eks_rds" {
   subnet_ids = [for k, v in data.terraform_remote_state.vpc.outputs.network_database_subnets : v]
 
   tags = {
-      Name = "dbsubgrp-${local.settings.env}-${local.settings.region}-eks-01"
-    }
+    Name = "dbsubgrp-${local.settings.env}-${local.settings.region}-eks-01"
+  }
 }
 
 #Security Group for RDS Instance
@@ -33,7 +33,7 @@ resource "aws_security_group" "eks_rds" {
   }
 
   tags = {
-      Name = "secgrp-${local.settings.env}-${local.settings.region}-eks-rds-01"
+    Name = "secgrp-${local.settings.env}-${local.settings.region}-eks-rds-01"
   }
 }
 
@@ -60,7 +60,7 @@ resource "aws_db_instance" "eks_rds" {
   multi_az = local.settings.eks_rds.multi_az
 
   tags = {
-      Name = "rds-${local.settings.env}-${local.settings.region}-eks-rds-01"
+    Name = "rds-${local.settings.env}-${local.settings.region}-eks-rds-01"
   }
 
   lifecycle {
@@ -75,7 +75,7 @@ resource "aws_secretsmanager_secret" "eks_rds" {
   name = "secret-${local.settings.env}-${local.settings.region}-eks-rds-01"
 
   tags = {
-      Name = "secret-${local.settings.env}-${local.settings.region}-eks-rds-01"
+    Name = "secret-${local.settings.env}-${local.settings.region}-eks-rds-01"
   }
 }
 

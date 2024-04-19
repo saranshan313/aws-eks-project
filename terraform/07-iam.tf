@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "eks_node_grp_assume_role_policy" {
 }
 
 resource "aws_iam_role" "node_group_role" {
-  name = "role-${local.settings.env}-${local.settings.region}-nodegrp-01"
+  name               = "role-${local.settings.env}-${local.settings.region}-nodegrp-01"
   assume_role_policy = data.aws_iam_policy_document.eks_node_grp_assume_role_policy.json
 
   tags = {
