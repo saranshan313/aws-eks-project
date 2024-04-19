@@ -51,8 +51,8 @@ resource "aws_eks_node_group" "eks_apps" {
 
   scaling_config {
     desired_size = local.settings.eks_cluster.node_groups[each.key].scaling_config.desire_count
-    max_size     = local.settings.eks_cluster.node_groups[each.key].max_size
-    min_size     = local.settings.eks_cluster.node_groups[each.key].min_size
+    max_size     = local.settings.eks_cluster.node_groups[each.key].scaling_config.max_size
+    min_size     = local.settings.eks_cluster.node_groups[each.key].scaling_config.min_size
   }
 
   update_config {
