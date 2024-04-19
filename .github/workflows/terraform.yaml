@@ -1,4 +1,4 @@
-name: Terraform Deployment - ECS
+name: Terraform Deployment - EKS
  
 on: 
 #  workflow_dispatch:
@@ -20,11 +20,11 @@ permissions:
   contents: read  
  
 jobs:
- ecs-staging-use1:
+ eks-staging-use1:
    if: github.ref == 'refs/heads/staging' || github.event_name == 'pull_request'
    #name: 'Terraform Infrastructure Change Management - ${{ vars.ENVIRONMENT }}'
    runs-on: ubuntu-latest
-   environment: ecs-staging-use1
+   environment: eks-staging-use1
    defaults:
      run:
        shell: bash
@@ -54,11 +54,11 @@ jobs:
        with:
           terraform_workspace: ${{ vars.WORKSPACE }}
 
- ecs-prod-use1:
+ eks-prod-use1:
    if: github.ref == 'refs/heads/main'
    #name: 'Terraform Infrastructure Change Management - ${{ vars.ENVIRONMENT }}'
    runs-on: ubuntu-latest
-   environment: ecs-prod-use1
+   environment: eks-prod-use1
    defaults:
      run:
        shell: bash
