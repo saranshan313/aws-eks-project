@@ -43,7 +43,7 @@ resource "aws_eks_addon" "eks_apps" {
 resource "aws_eks_node_group" "eks_apps" {
   for_each        = local.settings.eks_cluster.node_groups
   cluster_name    = aws_eks_cluster.eks_apps.name
-  node_group_name = "$nodegrp-${local.settings.env}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
+  node_group_name = "nodegrp-${local.settings.env}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids = [
     for k, v in data.terraform_remote_state.vpc.outputs.network_application_subnets : v
@@ -65,6 +65,6 @@ resource "aws_eks_node_group" "eks_apps" {
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
   ]
   tags = {
-    Name = "$nodegrp-${local.settings.env}-${local.settings.region}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
+    Name = "nodegrp-${local.settings.env}-${local.settings.region}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
   }
 }
