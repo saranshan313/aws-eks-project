@@ -35,6 +35,63 @@ eks_cluster:
         min_size: 1
       update_config:
         max_unavailable: 1
+  vpc_endpoints:
+    - id: ec2
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: ecr.api
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: ecr.dkr
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: elasticloadbalancing
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: sts
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: logs
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: ec2messages
+      inbound_ports:
+        - 443
+      security_group_ids:
+    - id: ssmmessages
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: monitoring
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: secretsmanager
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: ssm
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: eks
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: s3
+      inbound_ports:
+        - 443
+      security_group_ids:  
+    - id: kms
+      inbound_ports:
+        - 443
+      security_group_ids:  
 
 #ECS Applications
 ecs_app_service_sg_rules:
