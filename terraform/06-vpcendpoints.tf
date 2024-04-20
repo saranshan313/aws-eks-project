@@ -1,6 +1,6 @@
 
 resource "aws_security_group" "vpc_endpoints_sg" {
-  for_each = local.settings.eks_cluster.vpc_endpoints
+  for_each = { for tuple in local.settings.eks_cluster.vpc_endpoints : tuple.id => tuple }
   name = format(
     "secgrp-%s-%s-vpce-%s-01",
     local.settings.env,
@@ -31,7 +31,7 @@ resource "aws_security_group" "vpc_endpoints_sg" {
 }
 
 resource "aws_vpc_endpoint" "eks_cluster_vpce" {
-  for_each = local.settings.eks_cluster.vpc_endpoints
+  for_each = { for tuple in local.settings.eks_cluster.vpc_endpoints : tuple.id => tuple }
   vpc_id   = data.terraform_remote_state.vpc.outputs.network_vpc_id
   service_name = format(
     "com.amazonaws.ap-southeast-2.%s",
