@@ -27,7 +27,7 @@ eks_cluster:
       version: v1.14.1-eksbuild.1
       resolve_conflict: OVERWRITE
   node_groups:
-    eks_app:
+    eks_apps:
       name: eks-apps  
       scaling_config:
         desire_count: 2
