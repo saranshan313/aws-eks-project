@@ -5,11 +5,11 @@ resource "aws_security_group" "vpc_endpoints_sg" {
     "secgrp-%s-%s-vpce-%s-01",
     local.settings.env,
     local.settings.region,
-    upper(local.settings.eks_cluster.vpc_endpoints[each.key].id)
+    upper(each.key)
   )
   description = format(
     "VPC endpoint security group for %s",
-    upper(local.settings.eks_cluster.vpc_endpoints[each.key].id)
+    upper(each.key)
   )
   vpc_id = data.terraform_remote_state.vpc.outputs.network_vpc_id
 
@@ -18,7 +18,7 @@ resource "aws_security_group" "vpc_endpoints_sg" {
     content {
       description = format(
         "Allow access to subnets for %s",
-        upper(local.settings.eks_cluster.vpc_endpoints[each.key].id)
+        upper(each.key)
       )
       from_port = ingress.value
       to_port   = ingress.value
@@ -35,7 +35,7 @@ resource "aws_vpc_endpoint" "eks_cluster_vpce" {
   vpc_id   = data.terraform_remote_state.vpc.outputs.network_vpc_id
   service_name = format(
     "com.amazonaws.ap-southeast-2.%s",
-    local.settings.eks_cluster.vpc_endpoints[each.key].id
+    each.key
   )
   vpc_endpoint_type = "Interface"
   subnet_ids = [
