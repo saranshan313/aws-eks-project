@@ -5,11 +5,7 @@ resource "aws_security_group" "interface_vpce_sg" {
     "secgrp-%s-%s-vpce-%s-01",
     local.settings.env,
     local.settings.region,
-    replace(
-      each.key,
-      strcontains(each.key, ".") ? "." : null,
-      "-"
-    )
+    strcontains(each.key, ".") ? replace(each.key, ".", "-") : each.key
   )
   description = format(
     "VPC endpoint security group for %s",
@@ -37,11 +33,7 @@ resource "aws_security_group" "interface_vpce_sg" {
       "secgrp-%s-%s-vpce-%s-01",
       local.settings.env,
       local.settings.region,
-      replace(
-        each.key,
-        strcontains(each.key, ".") ? "." : null,
-        "-"
-      )
+      strcontains(each.key, ".") ? replace(each.key, ".", "-") : each.key
     )
   }
 }
@@ -71,11 +63,7 @@ resource "aws_vpc_endpoint" "eks_cluster_vpce" {
       "vpce-%s-%s-%s-01",
       local.settings.env,
       local.settings.region,
-      replace(
-        each.key,
-        strcontains(each.key, ".") ? "." : null,
-        "-"
-      )
+      strcontains(each.key, ".") ? replace(each.key, ".", "-") : each.key
     )
   }
 }
@@ -97,11 +85,7 @@ resource "aws_vpc_endpoint" "vpce_gtw" {
       "vpce-%s-%s-%s-01",
       local.settings.env,
       local.settings.region,
-      replace(
-        each.key,
-        strcontains(each.key, ".") ? "." : null,
-        "-"
-      )
+      strcontains(each.key, ".") ? replace(each.key, ".", "-") : each.key
     )
   }
 }
