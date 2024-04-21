@@ -28,6 +28,10 @@ resource "aws_security_group" "interface_vpce_sg" {
       ]
     }
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = {
     Name = format(
       "secgrp-%s-%s-vpce-%s-01",
