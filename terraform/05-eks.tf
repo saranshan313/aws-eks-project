@@ -56,7 +56,11 @@ resource "aws_eks_node_group" "eks_apps" {
   }
 
   launch_template {
-    name    = aws_launch_template.eks_node_groups[each.value["name"]].arn
+    name = format("lt-%s-%s-%s-01",
+      local.settings.env,
+      local.settings.region,
+      local.settings.eks_cluster.node_groups[each.key].name
+    )
     version = "$Latest"
   }
 
