@@ -89,7 +89,7 @@ resource "aws_vpc_endpoint" "vpce_gtw" {
     local.regions[local.settings.region],
     each.key
   )
-#  policy            = contains(keys(each.value), "policy") ? file(lookup(each.value, "policy")) : null
+  #  policy            = contains(keys(each.value), "policy") ? file(lookup(each.value, "policy")) : null
   vpc_endpoint_type = "Gateway"
 
   tags = {
