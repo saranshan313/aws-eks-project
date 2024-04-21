@@ -55,6 +55,11 @@ resource "aws_eks_node_group" "eks_apps" {
     min_size     = local.settings.eks_cluster.node_groups[each.key].scaling_config.min_size
   }
 
+  launch_template {
+    name    = aws_launch_template.eks_node_groups[each.value["name"]].arn
+    version = "$Latest"
+  }
+
   update_config {
     max_unavailable = local.settings.eks_cluster.node_groups[each.key].update_config.max_unavailable
   }
@@ -67,5 +72,26 @@ resource "aws_eks_node_group" "eks_apps" {
   ]
   tags = {
     Name = "nodegrp-${local.settings.env}-${local.settings.region}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
+  }
+}
+
+#Launch templates for EKS node groups
+resource "aws_launch_template" "eks_node_groups" {
+  for_each = local.settings.eks_cluster.node_groups
+  name = format("lt-%s-%s-%s-01",
+    local.settings.env,
+    local.settings.region,
+    local.settings.eks_cluster.node_groups[each.key].name
+  )
+  instance_type = local.settings.eks_cluster.node_groups[each.key].instance_type
+
+  tag_specifications {
+    tags = {
+      Name = format("node-%s-%s-%s-01",
+        local.settings.env,
+        local.settings.region,
+        local.settings.eks_cluster.node_groups[each.key].name
+      )
+    }
   }
 }

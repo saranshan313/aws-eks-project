@@ -18,17 +18,18 @@ eks_cluster:
     ip_family: ipv4
   add_on:
     kube_proxy:
-      version: v1.27.6-eksbuild.2
+      version: v1.28.8-eksbuild.2
       resolve_conflict: OVERWRITE
     coredns:
-      version: v1.10.1-eksbuild.2
+      version: v1.10.1-eksbuild.7
       resolve_conflict: OVERWRITE
     vpc_cni:
-      version: v1.14.1-eksbuild.1
+      version: v1.18.0-eksbuild.1
       resolve_conflict: OVERWRITE
   node_groups:
     eks_apps:
-      name: eks-apps  
+      name: eks-apps
+      instance_type: t3.medium
       scaling_config:
         desire_count: 2
         max_size: 2
@@ -42,27 +43,27 @@ eks_cluster:
     - id: ec2
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: ecr.api
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: ecr.dkr
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: elasticloadbalancing
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: sts
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: logs
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: ec2messages
       inbound_ports:
         - 443
@@ -70,31 +71,31 @@ eks_cluster:
     - id: ssmmessages
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: monitoring
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: secretsmanager
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: ssm
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: eks
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: s3
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
     - id: kms
       inbound_ports:
         - 443
-      security_group_ids:  
+      security_group_ids:
 
 #ECS Applications
 ecs_app_service_sg_rules:
@@ -155,5 +156,4 @@ eks_rds:
 #ECR Configurations
 ecr_eks:
   scan_on_push: true
-
 #####
