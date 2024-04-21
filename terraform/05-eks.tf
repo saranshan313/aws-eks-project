@@ -90,6 +90,7 @@ resource "aws_launch_template" "eks_node_groups" {
   instance_type = local.settings.eks_cluster.node_groups[each.key].instance_type
 
   tag_specifications {
+    resource_type = "instance"
     tags = {
       Name = format("node-%s-%s-%s-01",
         local.settings.env,
