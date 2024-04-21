@@ -7,7 +7,7 @@ resource "aws_security_group" "interface_vpce_sg" {
     local.settings.region,
     replace(
       each.key,
-      strcontains(each.key, ".") ? "." : null,
+      strcontains(each.key, ".") ? "." : "",
       "-"
     )
   )
@@ -39,7 +39,7 @@ resource "aws_security_group" "interface_vpce_sg" {
       local.settings.region,
       replace(
         each.key,
-        strcontains(each.key, ".") ? "." : null,
+        strcontains(each.key, ".") ? "." : "",
         "-"
       )
     )
@@ -73,7 +73,7 @@ resource "aws_vpc_endpoint" "eks_cluster_vpce" {
       local.settings.region,
       replace(
         each.key,
-        strcontains(each.key, ".") ? "." : null,
+        strcontains(each.key, ".") ? "." : "",
         "-"
       )
     )
@@ -99,7 +99,7 @@ resource "aws_vpc_endpoint" "vpce_gtw" {
       local.settings.region,
       replace(
         each.key,
-        strcontains(each.key, ".") ? "." : null,
+        strcontains(each.key, ".") ? "." : "",
         "-"
       )
     )
