@@ -7,7 +7,7 @@ resource "aws_security_group" "interface_vpce_sg" {
     local.settings.region,
     replace(
       each.key,
-      strcontains(each.key, ".") ? "." : "",
+      strcontains(each.key, ".") ? "." : null,
       "-"
     )
   )
@@ -39,7 +39,7 @@ resource "aws_security_group" "interface_vpce_sg" {
       local.settings.region,
       replace(
         each.key,
-        strcontains(each.key, ".") ? "." : "",
+        strcontains(each.key, ".") ? "." : null,
         "-"
       )
     )
@@ -73,7 +73,7 @@ resource "aws_vpc_endpoint" "eks_cluster_vpce" {
       local.settings.region,
       replace(
         each.key,
-        strcontains(each.key, ".") ? "." : "",
+        strcontains(each.key, ".") ? "." : null,
         "-"
       )
     )
@@ -89,7 +89,7 @@ resource "aws_vpc_endpoint" "vpce_gtw" {
     local.regions[local.settings.region],
     each.key
   )
-  policy            = contains(keys(each.value), "policy") ? file(lookup(each.value, "policy")) : null
+#  policy            = contains(keys(each.value), "policy") ? file(lookup(each.value, "policy")) : null
   vpc_endpoint_type = "Gateway"
 
   tags = {
@@ -99,7 +99,7 @@ resource "aws_vpc_endpoint" "vpce_gtw" {
       local.settings.region,
       replace(
         each.key,
-        strcontains(each.key, ".") ? "." : "",
+        strcontains(each.key, ".") ? "." : null,
         "-"
       )
     )
