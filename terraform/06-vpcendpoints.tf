@@ -81,24 +81,6 @@ resource "aws_vpc_endpoint" "eks_cluster_vpce" {
 }
 
 #Gateway VPC Endpoints
-locals {
-  # iterate over vpc endpoint gateways nested to the list of route table id
-  route_table_ids = flatten([
-    for tuple in local.settings.vpcendpoints_gateways : [
-      for rt in data.tfe_outputs.infrastructure_infra.values.private_route_table_ids : {
-        vpc_endpoint_id = tuple.id
-        route_table_id  = rt
-      }
-    ]
-  ])
-}
-
-data "aws_vpc_endpoint_service" "vpce_service_gtw" {
-  for_each     = { for tuple in local.settings.vpcendpoints_gateways : tuple.id => tuple }
-  service      = each.key
-  service_type = "Gateway"
-}
-
 resource "aws_vpc_endpoint" "vpce_gtw" {
   for_each = { for tuple in local.settings.eks_cluster.gateway_vpce : tuple.id => tuple }
   vpc_id   = data.terraform_remote_state.vpc.outputs.network_vpc_id
