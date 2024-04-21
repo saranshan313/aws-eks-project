@@ -35,7 +35,10 @@ eks_cluster:
         min_size: 1
       update_config:
         max_unavailable: 1
-  vpc_endpoints:
+  gateway_vpce:
+    - id: s3
+      policy:
+  interface_vpce:
     - id: ec2
       inbound_ports:
         - 443
