@@ -39,6 +39,11 @@ eks_cluster:
         min_size: 1
       update_config:
         max_unavailable: 1
+  aws_auth_config:
+    role_arn: arn:aws:iam::850071827025:user/cloud_user
+    user_name: "ClusterAdmin"
+    groups:      
+      - system:masters
   gateway_vpce:
     - id: s3
       policy:
