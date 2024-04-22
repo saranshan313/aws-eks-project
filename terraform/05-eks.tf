@@ -61,7 +61,7 @@ resource "aws_eks_node_group" "eks_apps" {
       local.settings.region,
       local.settings.eks_cluster.node_groups[each.key].name
     )
-    version = "$Latest"
+    version = "$Default"
   }
 
   update_config {
