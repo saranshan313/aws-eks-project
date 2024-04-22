@@ -110,9 +110,9 @@ resource "kubernetes_config_map" "aws_auth" {
   }
 
   data = {
-    userarn  = local.settings.eks_cluster.aws_auth_config[each.key].userarn
-    username = local.settings.eks_cluster.aws_auth_config[each.key].username
-    groups   = local.settings.eks_cluster.aws_auth_config[each.key].groups
+    userarn  = each.value["userarn"]
+    username = each.value["username"]
+    groups   = each.value["groups"]
   }
 
   lifecycle {
