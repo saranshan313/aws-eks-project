@@ -120,8 +120,8 @@ resource "kubernetes_config_map" "aws_auth" {
     # This is only intended to be used in scenarios where the configmap does not exist
     ignore_changes = [
       data,
-      metadata.labels,
-      metadata.annotations
+      metadata[0].labels,
+      metadata[0].annotations
     ]
   }
 }
