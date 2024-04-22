@@ -41,8 +41,8 @@ eks_cluster:
         max_unavailable: 1
   aws_auth_config:
     cluster_admin:
-      role_arn: arn:aws:iam::850071827025:user/cloud_user
-      user_name: "ClusterAdmin"
+      userarn: arn:aws:iam::850071827025:user/cloud_user
+      username: "ClusterAdmin"
       groups:      
         - system:masters
   gateway_vpce:
@@ -106,15 +106,15 @@ eks_cluster:
         - 443
       security_group_ids:
 
-#ECS Applications
-ecs_app_service_sg_rules:
+#EKS Applications
+eks_app_service_sg_rules:
   ingressrule1:
     from_port: 80
     to_port: 80
     protocol: 6
     security_groups: []
     cidr_blocks: []
-ecs_app_lb_sg_rules:
+eks_app_lb_sg_rules:
   ingressrule1:
     from_port: 80
     to_port: 80

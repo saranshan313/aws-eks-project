@@ -110,8 +110,8 @@ resource "kubernetes_config_map" "aws_auth" {
   }
 
   data = {
-    rolearn  = local.settings.eks_cluster.aws_auth_config[each.key].role_arn
-    username = local.settings.eks_cluster.aws_auth_config[each.key].user_name
+    userarn  = local.settings.eks_cluster.aws_auth_config[each.key].userarn
+    username = local.settings.eks_cluster.aws_auth_config[each.key].username
     groups   = local.settings.eks_cluster.aws_auth_config[each.key].groups
   }
 
