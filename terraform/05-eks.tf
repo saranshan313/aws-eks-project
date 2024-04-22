@@ -103,7 +103,7 @@ resource "aws_launch_template" "eks_node_groups" {
 
 #Add Admin user to AWS Auth Config Map to provide access to EKS Cluster
 resource "kubernetes_config_map" "aws_auth" {
-  for_each = local.settings.aws_auth_config
+  for_each = local.settings.eks_cluster.aws_auth_config
   metadata {
     name      = "aws-auth"
     namespace = "kube-system"

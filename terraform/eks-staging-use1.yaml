@@ -128,16 +128,16 @@ ecs_app_lb_sg_rules:
     security_groups: []
     cidr_blocks: ["0.0.0.0/0"]
 
-#ECS Application LoadBalancer
-ecs_alb_internal: false
-ecs_alb_type: application
-ecs_alb_crosszone_lb: true
-ecs_alb_ip_type: ipv4
+#EKS Application LoadBalancer
+eks_alb_internal: false
+eks_alb_type: application
+eks_alb_crosszone_lb: true
+eks_alb_ip_type: ipv4
 
-ecs_alb_traffic_port: 80
-ecs_alb_protocol: HTTP
-ecs_alb_target_type: ip
-ecs_alb_sg_description: Security Group for Ingress Application Load Balancer
+eks_alb_traffic_port: 80
+eks_alb_protocol: HTTP
+eks_alb_target_type: ip
+eks_alb_sg_description: Security Group for Ingress Application Load Balancer
 
 eks_rds_sg_rules:
   ingressrule1:
