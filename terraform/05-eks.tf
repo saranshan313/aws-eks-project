@@ -109,13 +109,11 @@ resource "kubernetes_config_map" "aws_auth" {
     namespace = "kube-system"
   }
 
-  data = [
-    {
-      rolearn  = local.settings.eks_cluster.aws_auth_config[each.key].role_arn
-      username = local.settings.eks_cluster.aws_auth_config[each.key].user_name
-      groups   = local.settings.eks_cluster.aws_auth_config[each.key].groups
-    }
-  ]
+  data = {
+    rolearn  = local.settings.eks_cluster.aws_auth_config[each.key].role_arn
+    username = local.settings.eks_cluster.aws_auth_config[each.key].user_name
+    groups   = local.settings.eks_cluster.aws_auth_config[each.key].groups
+  }
 
   lifecycle {
     # We are ignoring the data here since we will manage it with the resource below

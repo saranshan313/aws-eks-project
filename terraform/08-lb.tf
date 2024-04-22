@@ -27,7 +27,7 @@ resource "aws_security_group" "eks_alb_sg" {
 
 
 # EKS Application Load balancer
-resource "aws_lb" "ecs_alb" {
+resource "aws_lb" "eks_alb" {
   name                             = "alb-${local.settings.env}-${local.settings.region}-eks-alb-01"
   internal                         = local.settings.eks_alb_internal
   load_balancer_type               = local.settings.eks_alb_type
@@ -63,7 +63,7 @@ resource "aws_lb_target_group" "eks_alb_tg" {
   }
 
   tags = {
-    Name = "tg-${local.settings.env}-${local.settings.region}-ecs-app-01"
+    Name = "tg-${local.settings.env}-${local.settings.region}-eks-app-01"
   }
 
 }
