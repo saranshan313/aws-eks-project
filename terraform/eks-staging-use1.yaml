@@ -18,12 +18,15 @@ eks_cluster:
     ip_family: ipv4
   add_on:
     kube_proxy:
+      name: kube-proxy
       version: v1.28.2-eksbuild.2
       resolve_conflict: OVERWRITE
     coredns:
+      name: coredns
       version: v1.10.1-eksbuild.7
       resolve_conflict: OVERWRITE
     vpc_cni:
+      name: Amazon VPC CNI
       version: v1.15.1-eksbuild.1
       resolve_conflict: OVERWRITE
   node_groups:
