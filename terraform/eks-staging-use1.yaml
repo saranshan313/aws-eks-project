@@ -42,9 +42,8 @@ eks_cluster:
   aws_auth_config:
     cluster_admin:
       userarn: arn:aws:iam::850071827025:user/cloud_user
-      username: "ClusterAdmin"
-      groups:      
-        - system:masters
+      username: ClusterAdmin
+      groups: system:masters
   gateway_vpce:
     - id: s3
       policy:
