@@ -16,16 +16,16 @@ provider "aws" {
   }
 }
 
-provider "kubernetes" {
-  host = aws_eks_cluster.eks_apps.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.eks_apps.certificate_authority.data)
+# provider "kubernetes" {
+#   host = aws_eks_cluster.eks_apps.endpoint
+#   cluster_ca_certificate = base64decode(aws_eks_cluster.eks_apps.certificate_authority.data)
 
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args = ["eks", "get-token", "--cluster-name", aws_eks_cluster.eks_apps.id]
-    command = "aws"
-  }
-}
+#   exec {
+#     api_version = "client.authentication.k8s.io/v1beta1"
+#     args = ["eks", "get-token", "--cluster-name", aws_eks_cluster.eks_apps.id]
+#     command = "aws"
+#   }
+# }
 
 data "terraform_remote_state" "vpc" {
   backend = "s3"
