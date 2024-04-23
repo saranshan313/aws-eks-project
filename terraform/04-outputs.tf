@@ -15,7 +15,7 @@ output "eks_ca" {
 
 output "eks_oidc" {
   description = "OIDC of the EKS Cluster"
-  value       = try(aws_eks_cluster.eks_apps.identity.oidc[0].issuer, null)
+  value       = try(aws_eks_cluster.eks_apps.oidc[0].issuer, null)
 }
 
 output "eks_cluster_name" {
