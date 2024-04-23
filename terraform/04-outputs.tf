@@ -10,12 +10,12 @@ output "eks_endpoint" {
 
 output "eks_ca" {
   description = "CA of the EKS Cluster"
-  value       = try(aws_eks_cluster.eks_apps.certificate_authority, null)
+  value       = try(aws_eks_cluster.eks_apps.certificate_authority[0].data, null)
 }
 
 output "eks_oidc" {
   description = "OIDC of the EKS Cluster"
-  value       = try(aws_eks_cluster.eks_apps.identity, null)
+  value       = try(aws_eks_cluster.eks_apps.identity.oidc[0].issuer, null)
 }
 
 output "eks_cluster_name" {
