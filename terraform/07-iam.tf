@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "aws_alb_controller_assume_policy" {
     principals {
       type = "Federated"
       identifiers = [
-        aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer
+        aws_iam_openid_connect_provider.oidc_provider.arn
       ]
     }
 
