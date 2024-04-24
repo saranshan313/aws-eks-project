@@ -101,13 +101,13 @@ data "aws_iam_policy_document" "aws_alb_controller_assume_policy" {
     principals {
       type = "Federated"
       identifiers = [
-        data.terraform_remote_state.eks.outputs.eks_oidc
+        aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer
       ]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(data.terraform_remote_state.eks.outputs.eks_oidc, "https://", "")}:sub"
+      variable = "${replace(aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer, "https://", "")}:sub"
 
       values = [
         "system:serviceaccount:${local.settings.eks_cluster.alb_ingress_controller_role.namespace}:${local.settings.eks_cluster.alb_ingress_controller_role.service_account}",
@@ -116,7 +116,7 @@ data "aws_iam_policy_document" "aws_alb_controller_assume_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(data.terraform_remote_state.eks.outputs.eks_oidc, "https://", "")}:aud"
+      variable = "${replace(aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer, "https://", "")}:aud"
 
       values = [
         "sts.amazonaws.com"
