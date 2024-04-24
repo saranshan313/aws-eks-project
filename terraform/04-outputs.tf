@@ -22,3 +22,8 @@ output "eks_cluster_name" {
   description = "Name of the EKS Cluster"
   value       = try(aws_eks_cluster.eks_apps.id, null)
 }
+
+output "alb_ingress_controller_role" {
+  description = "ARN of the ALB ingress controller"
+  value       = try(aws_iam_role.aws_alb_controller_role.arn, null)
+}
