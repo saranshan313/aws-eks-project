@@ -13,17 +13,17 @@ output "eks_ca" {
   value       = try(aws_eks_cluster.eks_apps.certificate_authority[0].data, null)
 }
 
-output "eks_oidc" {
-  description = "OIDC of the EKS Cluster"
+output "eks_oidc_issuer" {
+  description = "Issuer URL of the OIDC for EKS Cluster"
   value       = try(aws_eks_cluster.eks_apps.identity[0].oidc[0].issuer, null)
+}
+
+output "eks_oidc_arn" {
+  description = "ARN of OIDC provider for EKS Cluster"
+  value       = try(aws_iam_openid_connect_provider.oidc_provider.arn, null)
 }
 
 output "eks_cluster_name" {
   description = "Name of the EKS Cluster"
   value       = try(aws_eks_cluster.eks_apps.id, null)
-}
-
-output "alb_ingress_controller_role" {
-  description = "ARN of the ALB ingress controller"
-  value       = try(aws_iam_role.aws_alb_controller_role.arn, null)
 }
