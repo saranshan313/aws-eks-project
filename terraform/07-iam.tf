@@ -89,3 +89,58 @@ resource "aws_iam_role_policy_attachment" "node_group_AmazonSSMManagedInstanceCo
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role       = aws_iam_role.node_group_role.name
 }
+
+#IAM Role for the AWS ALB Ingress Controller
+data "aws_iam_policy_document" "aws_alb_controller_assume_policy" {
+
+  statement {
+    actions = [
+      "sts:AssumeRoleWithWebIdentity"
+    ]
+
+    principals {
+      type = "Federated"
+      identifiers = [
+        data.terraform_remote_state.eks.outputs.eks_oidc
+      ]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(data.terraform_remote_state.eks.outputs.eks_oidc, "https://", "")}:sub"
+
+      values = [
+        "system:serviceaccount:${local.settings.eks_cluster.alb_ingress_controller_role.namespace}:${local.settings.eks_cluster.alb_ingress_controller_role.service_account}",
+      ]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(data.terraform_remote_state.eks.outputs.eks_oidc, "https://", "")}:aud"
+
+      values = [
+        "sts.amazonaws.com"
+      ]
+    }
+
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_role" "aws_alb_controller_role" {
+  name               = "role-${local.settings.env}-${local.settings.region}-alb-controller-01"
+  description        = "Role for the ALB Ingress Controller"
+  assume_role_policy = data.aws_iam_policy_document.aws_alb_controller_assume_policy.json
+}
+
+resource "aws_iam_policy" "aws_alb_controller_assume_policy" {
+  name        = "policy-${local.settings.env}-${local.settings.region}-alb-controller-01"
+  path        = "/"
+  description = "Permission policy for the ALB Ingress Controller"
+  policy      = file("./policies/ingress-permission.json")
+}
+
+resource "aws_iam_role_policy_attachment" "aws_alb_controller_permissions" {
+  role       = aws_iam_role.aws_alb_controller_role.name
+  policy_arn = aws_iam_policy.aws_alb_controller_assume_policy.arn
+}
