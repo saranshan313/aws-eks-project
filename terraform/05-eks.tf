@@ -77,9 +77,6 @@ resource "aws_eks_node_group" "eks_apps" {
   tags = {
     Name = "nodegrp-${local.settings.env}-${local.settings.region}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
   }
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 #Launch templates for EKS node groups
@@ -91,7 +88,7 @@ resource "aws_launch_template" "eks_node_groups" {
     local.settings.eks_cluster.node_groups[each.key].name
   )
   instance_type = local.settings.eks_cluster.node_groups[each.key].instance_type
-  security_group_names = [
+  vpc_security_group_ids = [
     aws_security_group.eks_nodegrp_sg.id
   ]
 
