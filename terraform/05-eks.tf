@@ -94,7 +94,8 @@ resource "aws_launch_template" "eks_node_groups" {
   )
   instance_type = local.settings.eks_cluster.node_groups[each.key].instance_type
   vpc_security_group_ids = [
-    aws_security_group.eks_nodegrp_sg.id
+    aws_security_group.eks_nodegrp_sg.id,
+    aws_security_group.eks_cluster_sg.id
   ]
 
   #  default_version = "$Latest"
@@ -148,13 +149,11 @@ resource "aws_security_group" "eks_nodegrp_sg" {
   dynamic "ingress" {
     for_each = local.settings.eks_nodegrp_sg_rules
     content {
-      from_port = ingress.value["from_port"]
-      to_port   = ingress.value["to_port"]
-      protocol  = ingress.value["protocol"]
-      security_groups = strcontains(
-        ingress.key, "alb") ? [aws_security_group.eks_alb_sg.id] : strcontains(
-      ingress.key, "cluster") ? [aws_security_group.eks_cluster_sg.id] : []
-      cidr_blocks = []
+      from_port       = ingress.value["from_port"]
+      to_port         = ingress.value["to_port"]
+      protocol        = ingress.value["protocol"]
+      security_groups = [aws_security_group.eks_alb_sg.id]
+      cidr_blocks     = []
     }
   }
   egress {
