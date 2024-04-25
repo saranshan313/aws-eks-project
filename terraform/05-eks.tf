@@ -116,7 +116,7 @@ resource "aws_security_group" "eks_nodegrp_sg" {
       from_port       = ingress.value["from_port"]
       to_port         = ingress.value["to_port"]
       protocol        = ingress.value["protocol"]
-      security_groups = ["${aws_security_group.eks_alb_sg.id}"]
+      security_groups = [aws_security_group.eks_alb_sg.id]
       cidr_blocks     = []
     }
   }
