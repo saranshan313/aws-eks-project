@@ -108,7 +108,16 @@ resource "aws_launch_template" "eks_node_groups" {
         local.settings.region,
         local.settings.eks_cluster.node_groups[each.key].name
       )
+      env    = local.settings.env
+      region = local.settings.region
     }
+  }
+  tags = {
+    Name = format("node-%s-%s-%s-01",
+      local.settings.env,
+      local.settings.region,
+      local.settings.eks_cluster.node_groups[each.key].name
+    )
   }
 }
 
