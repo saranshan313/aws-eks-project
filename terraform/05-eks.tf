@@ -66,7 +66,7 @@ resource "aws_eks_node_group" "eks_apps" {
       local.settings.region,
       local.settings.eks_cluster.node_groups[each.key].name
     )
-    version = "$Latest"
+    version = "$Default"
   }
 
   update_config {
@@ -98,7 +98,7 @@ resource "aws_launch_template" "eks_node_groups" {
     aws_security_group.eks_cluster_sg.id
   ]
 
-  #  default_version = "$Latest"
+  update_default_version = true
 
   tag_specifications {
     resource_type = "instance"
