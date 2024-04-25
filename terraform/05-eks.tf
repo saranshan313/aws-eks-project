@@ -10,6 +10,9 @@ resource "aws_eks_cluster" "eks_apps" {
     ]
     endpoint_private_access = local.settings.eks_cluster.vpc_config.private_access
     endpoint_public_access  = local.settings.eks_cluster.vpc_config.public_access
+
+    security_group_ids = aws_security_group.eks_cluster_sg.id
+
   }
   enabled_cluster_log_types = local.settings.eks_cluster.log_types
 
@@ -106,6 +109,34 @@ resource "aws_launch_template" "eks_node_groups" {
   }
 }
 
+#Security Group for EKS Cluster
+resource "aws_security_group" "eks_cluster_sg" {
+  name        = "secgrp-${local.settings.env}-${local.settings.region}-ekscluster-01"
+  description = "Security Group for EKS Cluster"
+  vpc_id      = data.terraform_remote_state.vpc.outputs.network_vpc_id
+
+  dynamic "ingress" {
+    for_each = local.settings.eks_cluster_sg_rules
+    content {
+      from_port       = ingress.value["from_port"]
+      to_port         = ingress.value["to_port"]
+      protocol        = ingress.value["protocol"]
+      security_groups = []
+      cidr_blocks     = []
+      self            = true
+    }
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "secgrp-${local.settings.env}-${local.settings.region}-eksnodegrp-01"
+  }
+}
+
 #Security Group for EKS NodeGroups
 resource "aws_security_group" "eks_nodegrp_sg" {
   name        = "secgrp-${local.settings.env}-${local.settings.region}-eksnodegrp-01"
@@ -115,11 +146,14 @@ resource "aws_security_group" "eks_nodegrp_sg" {
   dynamic "ingress" {
     for_each = local.settings.eks_nodegrp_sg_rules
     content {
-      from_port       = ingress.value["from_port"]
-      to_port         = ingress.value["to_port"]
-      protocol        = ingress.value["protocol"]
-      security_groups = [aws_security_group.eks_alb_sg.id]
-      cidr_blocks     = []
+      from_port = ingress.value["from_port"]
+      to_port   = ingress.value["to_port"]
+      protocol  = ingress.value["protocol"]
+      security_groups = [
+        aws_security_group.eks_alb_sg.id,
+        aws_security_group.eks_cluster_sg.id
+      ]
+      cidr_blocks = []
     }
   }
   egress {

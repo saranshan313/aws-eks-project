@@ -106,6 +106,13 @@ eks_cluster:
       security_group_ids:
 
 #EKS Security Groups Rules
+eks_cluster_sg_rules:
+  ingressrule1:
+    from_port: 0
+    to_port: 0
+    protocol: -1
+    security_groups: []
+    cidr_blocks: []
 eks_nodegrp_sg_rules:
   ingressrule1:
     from_port: 80
