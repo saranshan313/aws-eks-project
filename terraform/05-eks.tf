@@ -61,7 +61,7 @@ resource "aws_eks_node_group" "eks_apps" {
       local.settings.region,
       local.settings.eks_cluster.node_groups[each.key].name
     )
-    version = "$Default"
+    version = "$Latest"
   }
 
   update_config {
@@ -76,6 +76,9 @@ resource "aws_eks_node_group" "eks_apps" {
   ]
   tags = {
     Name = "nodegrp-${local.settings.env}-${local.settings.region}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
+  }
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -92,7 +95,7 @@ resource "aws_launch_template" "eks_node_groups" {
     aws_security_group.eks_nodegrp_sg.id
   ]
 
-  default_version = "$Latest"
+#  default_version = "$Latest"
 
   tag_specifications {
     resource_type = "instance"
