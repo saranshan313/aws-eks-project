@@ -95,7 +95,7 @@ resource "aws_launch_template" "eks_node_groups" {
     aws_security_group.eks_nodegrp_sg.id
   ]
 
-#  default_version = "$Latest"
+  #  default_version = "$Latest"
 
   tag_specifications {
     resource_type = "instance"
