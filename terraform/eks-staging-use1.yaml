@@ -105,9 +105,8 @@ eks_cluster:
         - 443
       security_group_ids:
 
-
-#EKS Applications
-eks_app_service_sg_rules:
+#EKS Security Groups Rules
+eks_nodegrp_sg_rules:
   ingressrule1:
     from_port: 80
     to_port: 80

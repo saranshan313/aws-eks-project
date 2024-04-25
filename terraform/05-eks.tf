@@ -88,6 +88,9 @@ resource "aws_launch_template" "eks_node_groups" {
     local.settings.eks_cluster.node_groups[each.key].name
   )
   instance_type = local.settings.eks_cluster.node_groups[each.key].instance_type
+  security_group_names = [
+    aws_security_group.eks_nodegrp_sg.id
+  ]
 
   tag_specifications {
     resource_type = "instance"
@@ -101,27 +104,29 @@ resource "aws_launch_template" "eks_node_groups" {
   }
 }
 
-# #Add Admin user to AWS Auth Config Map to provide access to EKS Cluster
-# resource "kubernetes_config_map" "aws_auth" {
-#   for_each = local.settings.eks_cluster.aws_auth_config
-#   metadata {
-#     name      = "aws-auth"
-#     namespace = "kube-system"
-#   }
+#Security Group for EKS NodeGroups
+resource "aws_security_group" "eks_nodegrp_sg" {
+  name        = "secgrp-${local.settings.env}-${local.settings.region}-eksnodegrp-01"
+  description = "Security Group for EKS node groups"
+  vpc_id      = data.terraform_remote_state.vpc.outputs.network_vpc_id
 
-#   data = {
-#     userarn  = each.value["userarn"]
-#     username = each.value["username"]
-#     groups   = each.value["groups"]
-#   }
-
-#   lifecycle {
-#     # We are ignoring the data here since we will manage it with the resource below
-#     # This is only intended to be used in scenarios where the configmap does not exist
-#     ignore_changes = [
-#       data,
-#       metadata[0].labels,
-#       metadata[0].annotations
-#     ]
-#   }
-# }
+  dynamic "ingress" {
+    for_each = local.settings.eks_nodegrp_sg_rules
+    content {
+      from_port       = ingress.value["from_port"]
+      to_port         = ingress.value["to_port"]
+      protocol        = ingress.value["protocol"]
+      security_groups = ["${aws_security_group.eks_alb_sg.id}"]
+      cidr_blocks     = []
+    }
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "secgrp-${local.settings.env}-${local.settings.region}-eksnodegrp-01"
+  }
+}

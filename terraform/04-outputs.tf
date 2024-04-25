@@ -27,3 +27,8 @@ output "eks_cluster_name" {
   description = "Name of the EKS Cluster"
   value       = try(aws_eks_cluster.eks_apps.id, null)
 }
+
+output "eks_nodegrp_sg" {
+  description = "Id of the EKS Node Group Security Group"
+  value       = try(aws_security_group.eks_nodegrp_sg.id, null)
+}
