@@ -135,7 +135,7 @@ resource "aws_security_group" "eks_cluster_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "secgrp-${local.settings.env}-${local.settings.region}-eksnodegrp-01"
+    Name = "secgrp-${local.settings.env}-${local.settings.region}-ekscluster-01"
   }
 }
 
@@ -151,10 +151,9 @@ resource "aws_security_group" "eks_nodegrp_sg" {
       from_port = ingress.value["from_port"]
       to_port   = ingress.value["to_port"]
       protocol  = ingress.value["protocol"]
-      security_groups = [
-        aws_security_group.eks_alb_sg.id,
-        aws_security_group.eks_cluster_sg.id
-      ]
+      security_groups = strcontains(
+        ingress.key, "alb") ? [aws_security_group.eks_alb_sg.id] : strcontains(
+      ingress.key, "cluster") ? [aws_security_group.eks_cluster_sg.id] : []
       cidr_blocks = []
     }
   }
