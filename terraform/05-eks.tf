@@ -11,7 +11,9 @@ resource "aws_eks_cluster" "eks_apps" {
     endpoint_private_access = local.settings.eks_cluster.vpc_config.private_access
     endpoint_public_access  = local.settings.eks_cluster.vpc_config.public_access
 
-    security_group_ids = aws_security_group.eks_cluster_sg.id
+    security_group_ids = [
+      aws_security_group.eks_cluster_sg.id
+    ]
 
   }
   enabled_cluster_log_types = local.settings.eks_cluster.log_types
