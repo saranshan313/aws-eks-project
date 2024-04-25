@@ -120,12 +120,6 @@ eks_nodegrp_sg_rules:
     protocol: 6
     security_groups: []
     cidr_blocks: []
-  clusterrule1:
-    from_port: 0
-    to_port: 0
-    protocol: -1
-    security_groups: []
-    cidr_blocks: []  
 eks_app_lb_sg_rules:
   ingressrule1:
     from_port: 80
