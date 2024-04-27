@@ -89,3 +89,8 @@ resource "aws_iam_role_policy_attachment" "node_group_AmazonSSMManagedInstanceCo
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role       = aws_iam_role.node_group_role.name
 }
+
+resource "aws_iam_instance_profile" "node_group_role" {
+  name = "ip-${local.settings.env}-${local.settings.region}-nodegrp-01"
+  role = aws_iam_role.node_group_role.name
+}

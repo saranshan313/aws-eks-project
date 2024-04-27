@@ -33,3 +33,7 @@ output "eks_nodegrp_sgs" {
   value       = try([aws_security_group.eks_nodegrp_sg.id, aws_security_group.eks_cluster_sg.id], null)
 }
 
+output "eks_node_instance_profile" {
+  description = "Instance Profile of the EKS Nodes"
+  value       = try(aws_iam_instance_profile.node_group_role.arn, null)
+}
