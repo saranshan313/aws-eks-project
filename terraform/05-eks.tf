@@ -33,16 +33,16 @@ resource "aws_eks_cluster" "eks_apps" {
 }
 
 #EKS Add ons
-resource "aws_eks_addon" "eks_apps" {
-  for_each                    = local.settings.eks_cluster.add_on
-  cluster_name                = aws_eks_cluster.eks_apps.name
-  addon_name                  = each.value["name"]
-  resolve_conflicts_on_create = each.value["resolve_conflict"]
-  addon_version               = each.value["version"]
-  depends_on = [
-    aws_eks_node_group.eks_apps
-  ]
-}
+# resource "aws_eks_addon" "eks_apps" {
+#   for_each                    = local.settings.eks_cluster.add_on
+#   cluster_name                = aws_eks_cluster.eks_apps.name
+#   addon_name                  = each.value["name"]
+#   resolve_conflicts_on_create = each.value["resolve_conflict"]
+#   addon_version               = each.value["version"]
+#   depends_on = [
+#     aws_eks_node_group.eks_apps
+#   ]
+# }
 
 #EKS Node Groups
 resource "aws_eks_node_group" "eks_apps" {
