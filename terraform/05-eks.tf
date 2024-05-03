@@ -6,8 +6,8 @@ resource "aws_eks_cluster" "eks_apps" {
 
   vpc_config {
     subnet_ids = [
-      #for k, v in data.terraform_remote_state.vpc.outputs.network_application_subnets : v
-      for k, v in data.terraform_remote_state.vpc.outputs.network_public_subnets : v
+      for k, v in data.terraform_remote_state.vpc.outputs.network_application_subnets : v
+      #for k, v in data.terraform_remote_state.vpc.outputs.network_public_subnets : v
     ]
     endpoint_private_access = local.settings.eks_cluster.vpc_config.private_access
     endpoint_public_access  = local.settings.eks_cluster.vpc_config.public_access
@@ -52,8 +52,8 @@ resource "aws_eks_node_group" "eks_apps" {
   node_group_name = "nodegrp-${local.settings.env}-${local.settings.eks_cluster.node_groups[each.key].name}-01"
   node_role_arn   = aws_iam_role.node_group_role.arn
   subnet_ids = [
-    #for k, v in data.terraform_remote_state.vpc.outputs.network_application_subnets : v
-    for k, v in data.terraform_remote_state.vpc.outputs.network_public_subnets : v
+    for k, v in data.terraform_remote_state.vpc.outputs.network_application_subnets : v
+    #for k, v in data.terraform_remote_state.vpc.outputs.network_public_subnets : v
   ]
 
   scaling_config {
