@@ -33,9 +33,14 @@ output "eks_nodegrp_sgs" {
   value       = try([aws_security_group.eks_nodegrp_sg.id, aws_security_group.eks_cluster_sg.id], null)
 }
 
-output "eks_node_instance_profile" {
-  description = "Instance Profile of the EKS Nodes"
+output "eks_node_instance_profile_arn" {
+  description = "Arn of the Instance Profile for EKS Nodes"
   value       = try(aws_iam_instance_profile.node_group_role.arn, null)
+}
+
+output "eks_node_instance_profile_name" {
+  description = "Name of the Instance Profile for EKS Nodes"
+  value       = try("ip-${local.settings.env}-${local.settings.region}-nodegrp-01", null)
 }
 
 output "eks_node_group_role_arn" {
