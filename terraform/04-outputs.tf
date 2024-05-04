@@ -37,3 +37,13 @@ output "eks_node_instance_profile" {
   description = "Instance Profile of the EKS Nodes"
   value       = try(aws_iam_instance_profile.node_group_role.arn, null)
 }
+
+output "eks_node_group_role_arn" {
+  description = "ARN of the EKS Nodes Groups Role"
+  value       = try(aws_iam_role.node_group_role.arn, null)
+}
+
+output "eks_cluster_role_arn" {
+  description = "ARN of the EKS Cluster Role"
+  value       = try(aws_iam_role.eks_cluster_role.arn, null)
+}
