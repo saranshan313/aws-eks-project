@@ -37,10 +37,10 @@ resource "aws_lb" "eks_alb" {
   ip_address_type                  = local.settings.eks_alb_ip_type
 
   tags = {
-    Name                       = "alb-${local.settings.env}-${local.settings.region}-eks-alb-01"
-    "ingress.k8s.aws/stack"    = "alb-${local.settings.env}-${local.settings.region}-ingressalb01", # Kubernetes specific tags for the ingress to choose the ALB
-    "ingress.k8s.aws/resource" = "LoadBalancer",                                                    # Kubernetes specific tags for the ingress to choose the ALB
-    "elbv2.k8s.aws/cluster"    = "eks-${local.settings.env}-${local.settings.region}-cluster-01"    # Kubernetes specific tags for the ingress to choose the ALB
+    Name                       = "alb-${local.settings.env}-${local.settings.region}-eks-alb-01",
+    "ingress.k8s.aws/stack"    = "alb-${local.settings.env}-${local.settings.region}-eks-alb-01", # Kubernetes specific tags for the ingress to choose the ALB
+    "ingress.k8s.aws/resource" = "LoadBalancer",                                                  # Kubernetes specific tags for the ingress to choose the ALB
+    "elbv2.k8s.aws/cluster"    = "eks-${local.settings.env}-${local.settings.region}-cluster-01"  # Kubernetes specific tags for the ingress to choose the ALB
   }
 }
 
