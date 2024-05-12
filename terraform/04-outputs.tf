@@ -52,3 +52,8 @@ output "eks_cluster_role_arn" {
   description = "ARN of the EKS Cluster Role"
   value       = try(aws_iam_role.eks_cluster_role.arn, null)
 }
+
+output "rds_secret_arn" {
+  description = "ARN of the RDS Secret"
+  value       = try(aws_secretsmanager_secret.eks_rds.arn, null)
+}
