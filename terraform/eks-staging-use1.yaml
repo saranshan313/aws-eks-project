@@ -162,7 +162,7 @@ eks_rds:
   instance_class: db.t3.micro
   username: eksroot
   dbname: eksapps
-  dbport: 3306
+  dbport: "3306"
   deletion_protection: false
   manage_master_user_password: true
   skip_final_snapshot: true
